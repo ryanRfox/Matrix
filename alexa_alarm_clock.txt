@@ -1,0 +1,46 @@
+1.	Change mouse and keyboard settings
+  a.	United States
+  b.	English  (US)
+2.	Connect to Wi-Fi
+3.	Add HOST_NAME (aidan-alarm)
+  a.	Open terminal
+  b.	sudo raspi-config
+  c.	No need to reboot at this time, wait until step Matrix Creator board requests a reboot
+4.	Create an Amazon Developer Account and register your device
+  a.	https://developer.amazon.com/
+  b.	Add Security Profile
+  c.	Add Alexa Device
+  d.	Edit device to set HOST_NAME
+    i.	  Allowed Origins: http://HOST_NAME.local:5000
+    ii.	  Allowed Return URLs: http://HOST_NAME.local:5000/code
+5.	Add repo key for Matrix
+  a.	curl https://apt.matrix.one/doc/apt-key.gpg | sudo apt-key add - \ 
+      echo "deb https://apt.matrix.one/raspbian $(lsb_release -sc) main" | \
+      sudo tee /etc/apt/sources.list.d/matrixlabs.list
+6.	Update && Upgrade OS (26 minutes)
+  a.	sudo apt-get update
+  b.	sudo apt-get upgrade 
+7.	Install Matrix MALOS
+  a.	sudo apt -y install matrixio-malos
+8.	Reboot the computer to initialize the Matrix Creator board
+  a.	sudo reboot
+9.	Install Alexa Demo repository (7 mins)
+  a.	Change Directory to your user local source directory: cd /usr/local/src/
+  b.	Clone the repo: sudo git clone https://github.com/matrix-io/matrix-creator-alexa-voice-demo.git
+  c.	Change Directory to the repo: cd matrix-creator-alexa-voice-demo
+  d.	Setup the demo: sudo ./setup.sh
+10.	Edit creds.py to add the details (from Step 4) within your Amazon Developer Account
+  a.	sudo nano creds.py
+    i.	  ProductID = "PRODUCT_ID"
+    ii.	  Security_Profile_Description = "SECURITY_PROFILE_DESCRIPTION"
+    iii.	Security_Profile_ID = "SECURITY_PROFILE_ID"
+    iv.	  Client_ID = "CLIENT_ID" 
+    v.	  Client_Secret = "CLIENT_SECRET"
+  b.	Save & exit: 
+    i.	  CTRL + X
+    ii.	  Y
+    iii.	ENTER
+11.	Run the program
+  a.	sudo ./auth_web.py &
+12.	Launch your app locally
+  a.	http://HOST_NAME.local:5000
